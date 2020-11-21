@@ -1,7 +1,7 @@
 {"paths": {
   "St.Himark": {
     "id": "St.Himark",
-    "d":"m 50,50 5,-5 z", "tot_sewer_and_water": 468308.0,
+    "d":"m 50,50 5,-5 34,54 24,-34 z", "tot_sewer_and_water": 468308.0,
     "avg_sewer_and_water": 5.6491393141,
     "num_sewer_and_water": 82899.0,
     "tot_power": 502189.0,

@@ -1,9 +1,9 @@
 <template>
-    <b-row><b-col><h3>{{state.id}}</h3></b-col>
-      <b-col>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><g id="transformer" :transform="d_transform()"><path :d="state.d"  id="minimap"></path></g></svg>
-    </b-col>
+    <div v-if="state" style="padding-left: 100px"><b-row ><h3>{{state.id}}</h3></b-row>
+      <b-row>
+      <svg id="minimap" xmlns="http://www.w3.org/2000/svg" width="200" height="200" :viewBox="view" preserveAspectRatio="xMinYMin"><!--g id="transformer" :transform="d_transform()"--><path  v-if="state" :d="state.d"  ></path></svg>
     </b-row>
+    </div>
 </template>
 
 <script>
@@ -20,6 +20,7 @@ export default {
       dy: '0',
       zoom: '1',
       dime: 0,
+      view: "0 0 300 300",
     }
   },
   watch: {
@@ -58,18 +59,18 @@ export default {
       return [t, b, l, r]   //top, bottom, left ,right
     },
     d_transform(){
-      let bounds = this.getBounds();
-      let dim =Math.max(bounds[1]-bounds[0],bounds[3] - bounds[2]);
+      let [t, b, l, r]  = this.getBounds();
+      let dim =Math.max(b - t, r - l);
       this.dime=dim;
-      this.dx = String(1 - bounds[2]);
-      this.dy = String(1 - bounds[0]);
-      this.zoom = String((8/dim)**0.7);
-      return "translate("+this.dx+" "+this.dy+") scale("+this.zoom+" "+this.zoom+")" ;
+      this.dx = String( l-20);
+      this.dy = String(t-20);
+      this.zoom = String((270/dim)**0.7);
+      this.view = this.dx+" "+this.dy+" "+String(dim +40 )+" "+String(dim +40);
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

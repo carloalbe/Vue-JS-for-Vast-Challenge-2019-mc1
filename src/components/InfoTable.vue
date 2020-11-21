@@ -1,4 +1,4 @@
-<template>
+<template><div  v-if="state" style="padding-left:70px">
   <table class="table" id="info">
     <thead class="thead-dark"><tr><th></th><th scope="col">Total</th><th scope="col">Average</th><th scope="col">Number</th></tr></thead>
     <b-tbody>
@@ -9,7 +9,7 @@
       <!-- medicals -->
     </b-tbody>
 
-  </table>
+  </table></div>
 </template>
 
 <script>
