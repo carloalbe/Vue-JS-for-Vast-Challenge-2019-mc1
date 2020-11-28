@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="PlotTS" >
     <b-collapse id="plotTSinfo">
       <b-card title="Plot the states">
         To visualize the series regarding a state, drag it inside this graph.
       </b-card>
     </b-collapse>
-<div id="plotDiv"  >
+<div id="plotDiv">
   <b-row>
     <b-col><button type="button" class="btn btn-primary" @click="cleanPlot">CLEAN</button></b-col>
     <b-col><b-form-checkbox v-model="show_avg" name="avgOnOff" switch>
@@ -40,9 +40,9 @@ export default {
         },
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
-        width:500,
-        height:300,
-        margin:{l:80,r:50,t:25,b:50},
+        width:450,
+        height: 300,
+        margin:{l:60,r:60,t:60,b:30},
         colorscale:'sequential',
         showlegend:true},
     }
@@ -73,7 +73,8 @@ export default {
       Plotly.newPlot('plotDiv', this.traces, this.layout);
       d3.select('#plotDiv')
           .on('dragover',function(event){event.preventDefault()})
-          .on('drop', ()=>{ if (!this.states.includes(this.dragged)){this.drawTrace(this.dragged)}});
+          .on('drop', ()=>{ if (!this.states.includes(this.dragged)){this.drawTrace(this.dragged)}})
+          .on('touchend', ()=>{ if (!this.states.includes(this.dragged)){this.drawTrace(this.dragged)}});
       this.drawTrace('St. Himark');
 
     },
@@ -111,7 +112,7 @@ export default {
       Plotly.relayout('plotDiv',{yaxis:{title:this.aggr_measure}});
       Plotly.relayout('plotDiv', {
         'xaxis.autorange': true,
-        'yaxis.autorange': true
+        'yaxis.autorange': true,
       });
     },
 
@@ -145,4 +146,15 @@ export default {
 </script>
 
 <style scoped>
+
+#PlotTS{
+  width: 450px;
+  height:400px;
+  padding-top:20px;
+  margin-bottom :80px;
+  right :0;
+  padding-left: 0;
+  padding-right: 20px;
+  margin-right:0;
+}
 </style>

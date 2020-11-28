@@ -1,5 +1,5 @@
 <template>
-  <div id="paretoDiv">
+  <div id="paretoDiv" >
   </div>
 </template>
 
@@ -10,14 +10,16 @@ export default {
   name: 'Pareto',
   data(){
     return{
-      margin : {top: 30, right: 30, bottom: 90, left: 50},
-      height: 300,
-      width: 400,
+      margin : {top: 50, right: 50, bottom: 100, left: 50},
+      height: 400,
+      width: 600,
       color: 'steelblue',
       lorenz: [],
+      sel: 'St. Himark',
     }
   },
   props: {
+    selected: Object,
     values: Array,
     aggr_measure: String,
     defaultState: Object,
@@ -63,7 +65,7 @@ export default {
     yAxis2(g){ g
         .attr("transform", `translate(${this.width - this.margin.right},0)`)
         .attr("id","yAxis2")
-        .call(d3.axisRight(this.scales()[3]))
+        .call(d3.axisRight(this.scales()[3]).tickFormat(d3.format(".0%")))
         .call(g => g.select(".domain").remove())
     },
 
@@ -121,12 +123,17 @@ export default {
           .attr("id","grect")
           .selectAll("rect")
           .data(this.values)
-          .join('rect')
+          .enter().append('rect')
           .style("mix-blend-mode", "multiply")
           .attr("x", d => x(d.id))
           .attr("y", d => yhist(d[this.aggr_measure]))
           .attr("height", d => yhist(0) - yhist(d[this.aggr_measure]))
-          .attr("width", x.bandwidth());
+          .attr("width", x.bandwidth())
+          .attr('aria-controls','sidebar-variant')
+          .on('click',this.handleClick)
+          .on('mouseover',this.handleMouseOver)
+          .on('mouseleave',this.handleMouseLeave);
+
 
       svg.append("path")
            .attr("id","lorenzCurve")
@@ -168,15 +175,25 @@ export default {
           .x(d => x(d.id))
           .y(d => yl(d.p));
 
-
       let lc =  d3.select("#lorenzCurve");
       lc.datum(this.lorenz)
       lc.transition(t)
         .attr("d",line);
+    },
 
+    handleClick(e){
+       let state = e.target.__data__.id;
+      this.$emit('emitState', state);
+    },
+    handleMouseOver(e,d){
+      this.$emit('emitState',d.id);
+      d3.select(e.target).style('opacity', 0.5);
+    },
+    handleMouseLeave(e){
+      this.$emit('selectedState');
+      d3.select(e.target).style('opacity',1);
+    },
 
-
-    }
 
   }
 }
@@ -185,5 +202,12 @@ export default {
 
 <style>
 
+#paretoDiv{
+  width: 800px;
+  height: 600px;
+  margin-left: 10%;
+  margin-right: 10%;
 
+
+}
 </style>

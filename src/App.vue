@@ -1,3 +1,15 @@
+<!--
+- dividere il database per ore in json, e fare mappa. la mapa reagisce ad un doppio slider posto sotto plot ts,
+  che condivide l 'asse coi ticks delle giornate
+  (in questo caso in realta viene più comodo avere il databse giorno per giorno)
+
+ - di sicuro aggiunge effetto hover visitando il pareto chart con selezione stato attraverso clic
+
+
+-scrivere tutte le path stato con un v-for per usare poi v-btoggle-sidebar.
+   oppure uscire il sidebar al click
+
+-->
 <template>
   <div id="app"  >
     <b-row>
@@ -9,6 +21,7 @@
     </b-row>
 
   </div>
+
 </template>
 
 <script>
@@ -52,8 +65,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 0;
+  margin-left:0;
+  padding:0;
+  padding-left:0;
 }
-
+b-row,b-col,b-container{
+  margin:0;padding:0;
+}
 
 
 </style>

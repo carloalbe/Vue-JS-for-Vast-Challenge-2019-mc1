@@ -1,8 +1,9 @@
 <template>
-<div>
+<div id="navBarDiv">
   <b-navbar id="navigationBar" toggleable="lg" type="dark" variant="primary">
 <!--router-link :to="{name: 'dashboard',params:{aggr:this.aggr, measure:this.measure}}" -->
-    <b-navbar-brand style="padding-left: 1%" href="/">St.Himark hearthquake map</b-navbar-brand>
+    <b-navbar-brand style="padding-left: 1%" href="/">  <img style="height: 30px;" src="../assets/StHimark_logo_white.png" class="d-inline-block align-top" alt="Kitten">
+      St.Himark hearthquake map</b-navbar-brand>
     <!--/router-link-->
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -17,7 +18,7 @@
 
        <b-nav-form>
         <b-form-select style="color:white; background-color: #007bff; border: 0" :options="aggregations"  id="aggregation-select" v-model="aggr" @change="changeAggr"></b-form-select>
-         <b-form-select style="color:white; background-color:rgba(0,0,0,0); border: 0" :options="measures"  id="measure-select" v-model="measure" @change="changeMeasure"></b-form-select>
+         <b-form-select style="color:white; background-color:#007bff; border: 0" :options="measures"  id="measure-select" v-model="measure" @change="changeMeasure"></b-form-select>
         </b-nav-form>
 
 
@@ -63,9 +64,15 @@ name: "NavBar",
     padding: 0;
     border:0;
     left:0;
+    top:0;
+
     right:5%;
 
 
+  }
+  #navBarDiv{
+    margin:0;
+    border:0;
   }
 
 

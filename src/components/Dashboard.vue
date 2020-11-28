@@ -1,34 +1,40 @@
 <template>
   <div id="background">
-  <b-container >
-    <!--b-row>
-      <NavBar/>
-    </b-row-->
     <b-row>
-      <b-col>
-        <!--b-row><b-form-select :options="aggregations"  id="aggregation-select" v-model="aggr"></b-form-select></b-row>
-        <b-row><b-form-select :options="measures"  id="measure-select" v-model="measure"></b-form-select></b-row-->
-        <b-row><div><Map :dragged="dragged" :aggr_measure="aggr_measure"  :states="states" :selected="selected" @defaultZone="defaultZone" @emitDragged="newDragged" @emitSelected="newSelected" @selectedState="lastSelected" @emitState="newState"/></div></b-row>
-      </b-col>
-      <b-col>
-        <div class="roundedDiv">
-          <b-row><div><SideMap :state="state" /></div></b-row>
-        <b-row><div><InfoTable :state="state" /></div></b-row>
-        </div>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col><div>
-        <PlotTS :aggr_measure="aggr_measure" :dragged="dragged"/>
-        </div></b-col>
-      <b-col><div><Pareto :defaultState="defaultState" :values="states.slice(1)" :aggr_measure="aggr_measure"/></div></b-col>
-    </b-row>
-    <!--b-row>
 
-      <GeoMap/>
+    <b-col cols="3">
+
+    <div  id="sideCol"><h3>{{state.id}}</h3></div>
+      <div id="sideScroll" >
+        <b-row><SideMap :state="state" /></b-row>
+        <b-row><InfoTable :state="state" /></b-row>
+      </div>
+
+    </b-col>
+
+
+      <b-col  cols="9">
+    <b-row >
+
+      <b-col >
+        <Map  :dragged="dragged" :aggr_measure="aggr_measure"  :states="states" :selected="selected" @defaultZone="defaultZone" @emitDragged="newDragged" @emitSelected="newSelected" @selectedState="lastSelected" @emitState="newState"/>
+      </b-col>
+
+      <b-col >
+       <PlotTS :aggr_measure="aggr_measure" :dragged="dragged"/>
+
+      </b-col>
+
     </b-row>
-  <b-row><TableauRace/></b-row-->
-  </b-container>
+    <b-row><Pareto :defaultState="defaultState" :values="states.slice(1)" :aggr_measure="aggr_measure" :selected="selected" @emitState="newState" /></b-row>
+      </b-col>
+
+    <!--b-row>
+      <GeoMap/>
+    </b-row-->
+  <!--b-row><TableauRace/></b-row-->
+    </b-row>
+
   </div>
 </template>
 
@@ -54,7 +60,7 @@ export default {
     SideMap,
     Map,
    // NavBar,
-   // GeoMap,
+    //GeoMap,
     //TableauRace,
   },
   data(){
@@ -66,7 +72,9 @@ export default {
       states: [],
       dragged: null,
       defaultState: null,
-      state: null,
+      state:  {
+        "id": "St.Himark",
+      },
       selected: null,
 
     };
@@ -96,8 +104,7 @@ export default {
       fetch("/data/states.json")
           .then(res => res.json())
           .then((data) => {
-            const states = data.paths;
-            this.states = states;
+            this.states = data.paths;
             this.defaultState = this.states[0];
             this.state = this.states[0];
             this.selected = this.states[0];
@@ -120,6 +127,7 @@ export default {
     },
     defaultZone(){
       this.selected = this.defaultState;
+      this.state = this.defaultState;
     }
 
 
@@ -130,17 +138,53 @@ export default {
 </script>
 
 <style>
-.roundedDiv{
-  border: 1px solid purple;
-  border-radius: 30px 30px 30px 30px  ;
+
+
+#sideCol {
+  position: fixed;
+  width: 23%;
+  height: 10%;
+  font-size: 10px;
+  margin-top:4%;
+  padding-top:2%;
+  padding-left:0;
+  padding-right: 0;
+  border:0;
+  right:0;
+  left:0;
+  top: 0;
+  bottom: 0;
+  background-color:#96C5BB;
 }
-#background{width: 100%;height:100%; padding-top:5%; background: hsla(49, 78%, 40%, 1);
+#sideScroll{
 
-  background: linear-gradient(45deg, hsla(49, 78%, 40%, 1) 0%, hsla(34, 82%, 60%, 1) 27%, hsla(48, 37%, 58%, 1) 50%, hsla(236, 100%, 72%, 1) 100%);
+  position: fixed;
+  width: 23%;
+  font-size: 10px;
+  overflow-y: auto;
+  margin-top:10%;
+  padding-top:0;
+  padding-left:0;
+  padding-right: 0;
+  margin-right:0;
+  border:0;
+  right:0;
+  left:0;
+  top: 0;
+  bottom: 0;
+  background-color: #96C5BB;
+  overflow-x: hidden;
+}
+#background{
+  width: 100%;
+  height:100%;
+  padding-top:5%;
+  margin-left: 0 ;
+  margin-right:0;
+  padding-left:0;
+  padding-right:0;
+  overflow-x: hidden;
+}
 
-  background: -moz-linear-gradient(45deg, hsla(49, 78%, 40%, 1) 0%, hsla(34, 82%, 60%, 1) 27%, hsla(48, 37%, 58%, 1) 50%, hsla(236, 100%, 72%, 1) 100%);
 
-  background: -webkit-linear-gradient(45deg, hsla(49, 78%, 40%, 1) 0%, hsla(34, 82%, 60%, 1) 27%, hsla(48, 37%, 58%, 1) 50%, hsla(236, 100%, 72%, 1) 100%);
-
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#B69917", endColorstr="#EDA546", GradientType=1 );}
 </style>

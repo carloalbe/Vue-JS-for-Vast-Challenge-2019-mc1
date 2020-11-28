@@ -24,16 +24,15 @@ name: "Geomap",
 
   methods: {
      mapping(){
-       let projection = d3.geoProjection(function(x,y){return [x,y]});
+      //let projection = d3.geoMercator();
 
         //var dataset = d3.json('/data/SttHimark.geo.json);
-         d3.json('/data/geostates.geojson').then((geo) => {
+         d3.json('/data/StHimark.geo.json', function(geo){
         d3.select('#geomapDiv').append('svg').attr('width',"700").attr('height',"350").append('g')
             .selectAll('path').data(geo.features).enter().append('path')
-            .attr('d', d3.geoPath().projection(projection)).attr('class','qwerty')
+            .attr('d', d3.geoPath()).attr('class','qwerty')
 
-        })
-       this.state_d = d3.selectAll(".querty")[2].attr('d');
+        });
     }
   }
 }
