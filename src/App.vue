@@ -1,23 +1,16 @@
-<!--
-- dividere il database per ore in json, e fare mappa. la mapa reagisce ad un doppio slider posto sotto plot ts,
-  che condivide l 'asse coi ticks delle giornate
-  (in questo caso in realta viene più comodo avere il databse giorno per giorno)
-
- - di sicuro aggiunge effetto hover visitando il pareto chart con selezione stato attraverso clic
-
-
--scrivere tutte le path stato con un v-for per usare poi v-btoggle-sidebar.
-   oppure uscire il sidebar al click
-
--->
 <template>
+
   <div id="app"  >
     <b-row>
-    <NavBar :aggr="aggr" :measure="measure" @changeMeasure="changemeasure" @changeAggr="changeaggr" />
+    <NavBar :aggregations="aggregations" :measures="measures" :aggr="aggr" :measure="measure" @changeMeasure="changemeasure" @changeAggr="changeaggr" />
     </b-row>
+
     <b-row>
       <!--router-view></router-view-->
-    <Dashboard :aggr="aggr" :measure="measure"/>
+    <Dashboard :aggregations="aggregations" :measures="measures" :aggr="aggr" :measure="measure"/>
+    </b-row>
+    <b-row>
+    <Footer/>
     </b-row>
 
   </div>
@@ -27,17 +20,21 @@
 <script>
 import Dashboard from './components/Dashboard.vue'
 import NavBar from "@/components/NavBar"
+import Footer from "@/components/Footer"
 export default {
   name: 'App',
   components: {
     Dashboard,
     NavBar,
+    Footer,
   },
   data(){
     return{
-
-      aggr: 'tot',
+      aggr: 'total',
       measure:'power',
+      aggregations: [{text:'Select an aggregation',value:null,disabled:true},{text:'Average',value:'average'},{text:'Total',value:'total'},{text:'Number of',value:'number of'}],
+      measures: [{text:'Select a category',value:null, disabled:true},{text:'Power',value:'power'},{text:'Buildings',value:'buildings'},{text:'Sewer and Water',value:'sewer & water'},{text:'Roads and Bridges',value:'roads & bridges'},{text:'Shake Intensity',value:'shake intensity'},{text:'Medical',value:'medical'}],
+
 
     }
   },
@@ -45,7 +42,6 @@ export default {
 
 
   methods: {
-
 
     changemeasure(m){
       this.measure = m;
@@ -67,7 +63,7 @@ export default {
   margin-top: 0;
   margin-left:0;
   padding:0;
-  padding-left:0;
+  overflow-x: hidden;
 }
 b-row,b-col,b-container{
   margin:0;padding:0;

@@ -1,40 +1,80 @@
 <template>
   <div id="background">
-    <b-row>
+    <b-overlay :show="mounting" rounded="sm">
+    <b-container>
 
-    <b-col cols="3">
+      <!------------------------SIDEBAR------------------->
+    <b-sidebar id="sidebar" :measures="measures" :aggregations="aggregations" :title="state.id" shadow v-model="sidebar_show">
+    <Sidebar :measures="measures.slice(1)" :aggregations="aggregations.slice(1)" :state="state" :mounted="mounted" />
+    </b-sidebar>
 
-    <div  id="sideCol"><h3>{{state.id}}</h3></div>
-      <div id="sideScroll" >
-        <b-row><SideMap :state="state" /></b-row>
-        <b-row><InfoTable :state="state" /></b-row>
-      </div>
 
+    <b-row style="padding-top: 4vh;padding-bottom: 4vh;" >
+      <!------------------PLOTLY GRAPHS----------------->
+      <b-col>
+        <b-card no-body>
+        <b-tabs id="plotlyTabs" variant="dark" card>
+          <b-tab active>
+            <template v-slot:title><b-icon icon="smartwatch"></b-icon>    Time Series</template>
+      <PlotTS ref="plot_ts" :states="selection" :aggr_measure="aggr_measure" :dragged="dragged" @cleanplotly="cleanPlotly" />
+        </b-tab>
+          <b-tab><template v-slot:title><b-icon icon="pentagon-half"/>    Radar Chart</template>
+          <RadarChart ref="radar_chart" :mounted="mounted" :aggr="aggr" :selection='selection' :states="states" :aggr_measure="aggr_measure" :dragged="dragged" @cleanplotly="cleanPlotly" />
+        </b-tab>
+        </b-tabs>
+        </b-card>
     </b-col>
-
-
-      <b-col  cols="9">
-    <b-row >
-
-      <b-col >
-        <Map  :dragged="dragged" :aggr_measure="aggr_measure"  :states="states" :selected="selected" @defaultZone="defaultZone" @emitDragged="newDragged" @emitSelected="newSelected" @selectedState="lastSelected" @emitState="newState"/>
-      </b-col>
-
-      <b-col >
-       <PlotTS :aggr_measure="aggr_measure" :dragged="dragged"/>
-
-      </b-col>
-
+      <!----------------------MAP E DISTRICTS LIST--------------->
+      <b-col>
+<b-card no-body>
+  <b-tabs card>  <b-tab active>
+    <template v-slot:title><b-icon icon="map"></b-icon>    Choropleth Map</template>
+    <Map  @showSidebar="showSidebar" :sidebar_show="sidebar_show" :dragged="dragged" :aggr_measure="aggr_measure"  :states="states" :mounted="mounted" @defaultZone="defaultZone" @emitDragged="newDragged" @emitSelected="newSelected" @selectedState="lastSelected" @emitState="newState"/>
+    </b-tab><b-tab><template v-slot:title><b-icon icon="list"></b-icon>    Districts List</template>
+    <div v-if="mounted">
+      <!--b-form-group>
+    <b-form-checkbox
+        v-for="s in states.slice(1)"
+        :key="s.id"
+        :value="s.id"
+        v-model="selection_list"
+        stacked
+        @change="handleCheck"
+    > {{s.id}}</b-form-checkbox>
+      </b-form-group-->
+    <DistrictsList :states="states.slice(1)" :aggr_measure="aggr_measure" :selection="selection" @addtrace="drawTrace"/></div></b-tab>
+  </b-tabs></b-card></b-col>
     </b-row>
-    <b-row><Pareto :defaultState="defaultState" :values="states.slice(1)" :aggr_measure="aggr_measure" :selected="selected" @emitState="newState" /></b-row>
-      </b-col>
+     <!-------------------------------PARETO & SCATTER PLOT----------------------------->
+     <b-row><b-col>
+    <b-card no-body><b-tabs card>
+      <b-tab ><template v-slot:title><b-icon icon="bar-chart-line-fill">ciao</b-icon>    Pareto Plot</template>
+    <b-row>
+      <b-col ><Pareto @showSidebar="showSidebar" :sidebar_show="sidebar_show"  :mounted="mounted" :values="states.slice(1)" :aggr_measure="aggr_measure" :selected="selected" @emitState="newState" @selectedState="lastSelected"/>
+      </b-col></b-row>
+      </b-tab>
+      <b-tab ><template v-slot:title><b-icon icon="graph-up"></b-icon>    Scatter Plots</template>
+      <b-row >
+
+        <b-col><ScatterPlot :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="0" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[1].value" :states="states.slice(1)"/></b-col>
+        <b-col><ScatterPlot :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="1" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[2].value" :states="states.slice(1)"/></b-col>
+          <b-col><ScatterPlot :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="2" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[3].value" :states="states.slice(1)"/></b-col>
+      </b-row>
+        <b-row>
+          <b-col><ScatterPlot :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="3" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[4].value" :states="states.slice(1)"/></b-col>
+          <b-col><ScatterPlot :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="4" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[5].value" :states="states.slice(1)"/></b-col>
+          <b-col><ScatterPlot :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="5" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[6].value" :states="states.slice(1)"/></b-col>
+        </b-row></b-tab></b-tabs>
+      </b-card></b-col>
+      </b-row>
 
     <!--b-row>
       <GeoMap/>
     </b-row-->
   <!--b-row><TableauRace/></b-row-->
-    </b-row>
 
+    </b-container>
+    </b-overlay>
   </div>
 </template>
 
@@ -42,33 +82,34 @@
 
 //import json from "../../public/data/states_id.json";
 import Map from "./Map.vue";
-import SideMap from "@/components/SideMap";
-import InfoTable from "@/components/InfoTable";
+import Sidebar from "@/components/Sidebar";
 import PlotTS from "@/components/PlotTS";
+import RadarChart from "@/components/RadarChart";
 import Pareto from "@/components/Pareto";
-//import NavBar from "@/components/NavBar";
-//import GeoMap from "@/components/GeoMap";
-//import TableauRace from "@/components/TableauRace";
+import ScatterPlot from "@/components/ScatterPlot";
+import DistrictsList from "@/components/DistrictsList";
+import * as d3 from "d3";
+
 
 export default {
   name: 'Home',
 
   components: {
+    ScatterPlot,
     PlotTS,
+    RadarChart,
     Pareto,
-    InfoTable,
-    SideMap,
+    Sidebar,
     Map,
+    DistrictsList,
    // NavBar,
     //GeoMap,
     //TableauRace,
   },
   data(){
     return {
-      //aggr: 'tot',
-      aggregations: [{text:'Select an aggregation',value:null,disable:true},{text:'Average',value:'avg'},{text:'Total',value:'tot'},{text:'number',value:'num'}],
-      //measure: 'power',
-      measures: [{text:'Select a measure',value:null, disabled:true},{text:'Power',value:'power'},{text:'Buildings',value:'buildings'},{text:'Sewer and Water',value:'sewer_and_water'},{text:'Roads and Bridges',value:'roads_and_bridges'},{text:'Shake Intensity',value:'shake_intensity'},{text:'Medical',value:'medical'}],
+      changment: 'St.Himark',
+      mounting: true,
       states: [],
       dragged: null,
       defaultState: null,
@@ -76,27 +117,29 @@ export default {
         "id": "St.Himark",
       },
       selected: null,
-
+      sidebar_show:false,
+      selection: [],
+      selection_list: [],
     };
   },
   computed:{
-    aggr_measure: function(){return this.aggr + '_' + this.measure},
-  },
+    aggr_measure: function(){return this.aggr + ' ' + this.measure},
+    mounted: function(){return !this.mounting}
+    },
   props: {
-
-    aggr: {
-      type:String,
-      default:'tot',
-    },
-    measure: {
-      type:String,
-      default:'power',
-    },
+    measures:Array,
+    aggregations:Array,
+    aggr:String,
+    measure:String,
+  },
+  watch: {
 
   },
+
 
   mounted(){
       this.dataFetch();
+      this.prepare_plotly();
   },
 
   methods: {
@@ -108,9 +151,30 @@ export default {
             this.defaultState = this.states[0];
             this.state = this.states[0];
             this.selected = this.states[0];
-
+            this.mounting = false;
           }) ;
+    },
+    prepare_plotly(){
+      d3.select('#plotlyTabs')
+          .on('dragover',function(event){event.preventDefault()})
+          .on('drop', ()=>{ this.drawTrace(this.dragged)});
+    },
+    drawTrace(id){
+      if (!this.selection.includes(id)){
+        this.$refs.plot_ts.drawTrace(id);
+        this.$refs.radar_chart.drawTrace(id);
+        this.selection.push(id);
+      }
+},
+    cleanPlotly(){
+      this.$refs.radar_chart.cleanPlot();
+      this.$refs.plot_ts.cleanPlot();
+      this.selection = ['St.Himark'];
+    },
 
+    handleCheck(id){
+      this.changment=id;
+      this.drawTrace(id.slice(-1).pop());
     },
 
     newState(id){
@@ -128,6 +192,10 @@ export default {
     defaultZone(){
       this.selected = this.defaultState;
       this.state = this.defaultState;
+    },
+    showSidebar(id){
+      if ((this.selected.id != id && this.sidebar_show==false) || (this.selected.id == id && this.sidebar_show==true)){this.sidebar_show = !this.sidebar_show;}
+      this.newSelected(id);
     }
 
 
@@ -140,51 +208,20 @@ export default {
 <style>
 
 
-#sideCol {
-  position: fixed;
-  width: 23%;
-  height: 10%;
-  font-size: 10px;
-  margin-top:4%;
-  padding-top:2%;
-  padding-left:0;
-  padding-right: 0;
-  border:0;
-  right:0;
-  left:0;
-  top: 0;
-  bottom: 0;
-  background-color:#96C5BB;
-}
-#sideScroll{
 
-  position: fixed;
-  width: 23%;
-  font-size: 10px;
-  overflow-y: auto;
-  margin-top:10%;
-  padding-top:0;
-  padding-left:0;
-  padding-right: 0;
-  margin-right:0;
-  border:0;
-  right:0;
-  left:0;
-  top: 0;
-  bottom: 0;
-  background-color: #96C5BB;
-  overflow-x: hidden;
-}
 #background{
   width: 100%;
   height:100%;
-  padding-top:5%;
+  margin-top:8vmin;
+  padding-top:5vh;
   margin-left: 0 ;
   margin-right:0;
   padding-left:0;
   padding-right:0;
+  margin-bottom:0;
   overflow-x: hidden;
 }
+
 
 
 </style>

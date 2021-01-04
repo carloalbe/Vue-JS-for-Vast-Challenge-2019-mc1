@@ -13,7 +13,6 @@
     <b-toast id="info_toast" title="Plot a state" static no-auto-hide>
       Drag a state from the map and drop it inside this plot to visualize its time series.
     </b-toast>
-
   </b-row>
 </div>
 </template>
@@ -70,12 +69,12 @@ export default {
 
     drawPlot(){
       Plotly.newPlot('plotDiv', this.traces, this.layout);
-      this.drawTrace('St.Himark');
+      this.drawTrace('St. Himark');
 
     },
 
     cleanPlot(){
-      Plotly.deleteTraces('plotDiv',Array.from({length: this.traces.length - 1}, (_, i) => i + 1 ));
+      Plotly.deleteTraces('radarDiv',Array.from({length: this.traces.length - 1}, (_, i) => i + 1 ));
     },
     cleanplotly(){
       this.$emit('cleanplotly');
@@ -145,9 +144,6 @@ export default {
 </script>
 
 <style scoped>
-
-
-
 
 #plotDiv{
 

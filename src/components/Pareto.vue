@@ -1,5 +1,17 @@
 <template>
   <div id="paretoDiv" >
+    <div v-if="mounted">
+      <b-popover triggers="hover" placement="top" v-for="stateid in this.values" :key="stateid.id + 'p'" :target="stateid.id +'p'">
+        <template #title>{{stateid.id}}</template>
+        <div style=" text-align: center;"> <b>{{aggr_measure}}</b>:  {{Intl.NumberFormat().format(stateid[aggr_measure])}}</div>
+        <hr style="margin-bottom: 0">
+        <div style="text-align: right;color:#5bc0de;font-size: 0.7em">
+          <span v-if="sidebar_show">click to select</span>
+          <span v-else>click to see more</span></div>
+
+
+      </b-popover>
+    </div>
   </div>
 </template>
 
@@ -10,22 +22,23 @@ export default {
   name: 'Pareto',
   data(){
     return{
-      margin : {top: 50, right: 50, bottom: 100, left: 50},
-      height: 400,
-      width: 600,
+      margin : {top: 40, right: 80, bottom: 150, left: 80},
+      height: 580,
+      width: 900,
       color: 'steelblue',
       lorenz: [],
-      sel: 'St. Himark',
+      sel: 'St.Himark',
     }
   },
   props: {
     selected: Object,
     values: Array,
     aggr_measure: String,
-    defaultState: Object,
+    mounted:Boolean,
+    sidebar_show:Boolean,
   },
   watch: {
-    defaultState: function(){this.drawPareto()},
+    mounted: function(){this.drawPareto()},
     aggr_measure: function(){ this.updatePareto()},
   },
 
@@ -60,7 +73,7 @@ export default {
         .attr("transform", `translate(${this.margin.left},0)`)
         .attr("id","yAxis")
         .call(d3.axisLeft(this.scales()[1]))
-        .call(g => g.select(".domain").remove())
+        .call(g => g.select(".domain").remove());
     },
     yAxis2(g){ g
         .attr("transform", `translate(${this.width - this.margin.right},0)`)
@@ -84,7 +97,7 @@ export default {
       });
     },
 
-    drawPareto() {
+    drawPareto: function () {
       //DATA
       this.orderValues(this.values);
       this.getLorenz();
@@ -94,23 +107,24 @@ export default {
 
 //Axes and scales
       let scales = this.scales();
-      let x = scales[0], yhist = scales[1],  yl = scales[3];
+      let x = scales[0], yhist = scales[1], yl = scales[3];
 
       let line = d3.line()
-          .x(d => x(d.id))
+          .x(d => x(d.id) + 0.5 * x.bandwidth())
           .y(d => yl(d.p))
 //Draw svg
 
       let svg = d3.select("#paretoDiv").append("svg")
-          .attr("viewBox", [0, 0, width, height]);
+          .attr("viewBox",'0 0 '+String(width) +' '+String(height));
 
       svg.append("g")
           .call(this.xAxis)
           .selectAll('text')
-              .style("text-anchor", "end")
-              .attr("dx", "-.8em")
-              .attr("dy", ".15em")
-              .attr("transform", "rotate(-65)") ;
+          .style("text-anchor", "end")
+          .style('font-size','15px')
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-65)");
 
       svg.append("g")
           .call(this.yAxis);
@@ -120,23 +134,36 @@ export default {
 
       svg.append("g")
           .attr("fill", "steelblue")
-          .attr("id","grect")
+          .attr("id", "grect")
           .selectAll("rect")
           .data(this.values)
           .enter().append('rect')
           .style("mix-blend-mode", "multiply")
+          .attr('id',d => d.id + 'p')
           .attr("x", d => x(d.id))
           .attr("y", d => yhist(d[this.aggr_measure]))
           .attr("height", d => yhist(0) - yhist(d[this.aggr_measure]))
           .attr("width", x.bandwidth())
-          .attr('aria-controls','sidebar-variant')
-          .on('click',this.handleClick)
-          .on('mouseover',this.handleMouseOver)
-          .on('mouseleave',this.handleMouseLeave);
+          .attr('aria-controls', 'sidebar').attr('aria-expanded', false)
+          .on('click', this.handleClick)
+          .on('mouseover', this.handleMouseOver)
+          .on('mouseleave', this.handleMouseLeave);
+
+
+      svg.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr('id','pareto_y_label')
+          .attr("y", -100- this.margin.left)
+          .attr("x", 0- (this.height / 2))
+          .attr("dy", "200px")
+          .style('font-size','30px')
+          .style("text-anchor", "middle")
+          .style('color','grey')
+          .text(this.aggr_measure);
 
 
       svg.append("path")
-           .attr("id","lorenzCurve")
+          .attr("id", "lorenzCurve")
           .datum(this.lorenz)
           .style("fill", "none")
           .style("stroke", "red")
@@ -169,10 +196,12 @@ export default {
       d3.select("#yAxis").transition(t)
           .call(this.yAxis);
 
+      d3.select('#pareto_y_label').text(this.aggr_measure);
+
       scales = this.scales();
       let yl = scales[3];
       let line = d3.line()
-          .x(d => x(d.id))
+          .x(d => x(d.id) + 0.5*x.bandwidth())
           .y(d => yl(d.p));
 
       let lc =  d3.select("#lorenzCurve");
@@ -183,7 +212,7 @@ export default {
 
     handleClick(e){
        let state = e.target.__data__.id;
-      this.$emit('emitState', state);
+       this.$emit('showSidebar',state)
     },
     handleMouseOver(e,d){
       this.$emit('emitState',d.id);
@@ -203,11 +232,19 @@ export default {
 <style>
 
 #paretoDiv{
-  width: 800px;
-  height: 600px;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: auto;
+  margin-right: auto;
+width:70%;
+  height: 70%;
 
+}
+@media only screen and (max-width: 600px) {
 
+  #paretoDiv{
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+    height: 70%;
+  }
 }
 </style>

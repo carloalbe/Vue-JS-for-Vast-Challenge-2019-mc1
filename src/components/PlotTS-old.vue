@@ -2,7 +2,7 @@
   <div style="padding-top:30px">
     <b-row><div id="plotDiv"></div></b-row>
   <b-row style="padding-left:100px;padding-right: 50px">
-    <b-col><b-button variant="outline-primary" @click="cleanplotly">CLEAN</b-button></b-col>
+    <b-col><b-button variant="outline-primary" @click="cleanPlot">CLEAN</b-button></b-col>
     <b-col><b-form-checkbox v-model="show_avg" name="avgOnOff" switch>
       Show average
     </b-form-checkbox></b-col>
@@ -13,14 +13,13 @@
     <b-toast id="info_toast" title="Plot a state" static no-auto-hide>
       Drag a state from the map and drop it inside this plot to visualize its time series.
     </b-toast>
-
   </b-row>
 </div>
 </template>
 
 <script>
 import Plotly from'plotly.js-dist';
-
+import * as d3 from'd3';
 export default {
   name: "PlotTS",
   data(){
@@ -70,15 +69,17 @@ export default {
 
     drawPlot(){
       Plotly.newPlot('plotDiv', this.traces, this.layout);
-      this.drawTrace('St.Himark');
+      d3.select('#plotDiv')
+          .on('dragover',function(event){event.preventDefault()})
+          .on('drop', ()=>{ if (!this.states.includes(this.dragged)){this.drawTrace(this.dragged)}})
+          .on('touchend', ()=>{ if (!this.states.includes(this.dragged)){this.drawTrace(this.dragged)}});
+      this.drawTrace('St. Himark');
 
     },
 
     cleanPlot(){
       Plotly.deleteTraces('plotDiv',Array.from({length: this.traces.length - 1}, (_, i) => i + 1 ));
-    },
-    cleanplotly(){
-      this.$emit('cleanplotly');
+      this.states = ['St. Himark'];
     },
 
     drawTrace(state){
@@ -96,7 +97,7 @@ export default {
           x: unpack(rows, 'time'),
           y: unpack(rows, this.aggr_measure),
         };
-
+        this.states.push(state);
         Plotly.addTraces('plotDiv', trace);
 
       });
@@ -147,6 +148,16 @@ export default {
 <style scoped>
 
 
+.btn-circle.btn-sm {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  font-size: 8px;
+  text-align: center;
+  font-size: large;
+  font-style: italic;
+}
 
 
 #plotDiv{

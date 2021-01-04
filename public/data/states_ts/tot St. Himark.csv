@@ -1,4 +1,4 @@
-time,tot_sewer_and_water,num_sewer_and_water,avg_sewer_and_water,tot_power,num_power,avg_power,tot_roads_and_bridges,num_roads_and_bridges,avg_roads_and_bridges,tot_buildings,num_buildings,avg_buildings,tot_shake_intensity,num_shake_intensity,avg_shake_intensity,tot_medical,num_medical,avg_medical
+time,total sewer & water,number of sewer & water,average sewer & water,total power,number of power,average power,total roads & bridges,number of roads & bridges,average roads & bridges,total buildings,number of buildings,average buildings,total shake intensity,number of shake intensity,average shake intensity,total medical,number of medical,average medical
 2020-04-06 00:00:00,277.0,53,5.226415094339623,263.0,53,4.962264150943396,284.0,53,5.3584905660377355,272.0,53,5.132075471698113,6.0,12,0.5,95.0,16,5.9375
 2020-04-06 01:00:00,547.0,89,6.146067415730337,464.0,89,5.213483146067416,460.0,89,5.168539325842697,455.0,89,5.112359550561798,8.0,15,0.5333333333333333,216.0,43,5.023255813953488
 2020-04-06 02:00:00,523.0,88,5.943181818181818,470.0,88,5.340909090909091,501.0,88,5.693181818181818,514.0,88,5.840909090909091,6.0,10,0.6,236.0,42,5.619047619047619

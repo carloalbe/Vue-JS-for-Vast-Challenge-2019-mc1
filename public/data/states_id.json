@@ -15,7 +15,10 @@
     "num_buildings": 82900.0,
     "tot_shake_intensity": 190269.0,
     "avg_shake_intensity": 2.6826410625,
-    "num_shake_intensity": 70926.0
+    "num_shake_intensity": 70926.0,
+    "num_medical":189642,
+    "tot_medical":35629,
+    "avg_medical":5.322686575542395,
   },
   "Palace Hills": {
     "id": "Palace Hills",
