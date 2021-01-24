@@ -7,12 +7,13 @@
       Show average
     </b-form-checkbox></b-col>
     <b-col>
-      <b-button pill variant="outline-info" @click="$bvToast.show('info_toast')" >  <span style="color:rgba(0,0,0,0)">.</span>i<span style="color: rgba(0,0,0,0)">.</span> </b-button>
-
+      <b-button pill variant="outline-primary" id="ts_info" >
+        <span style="color:rgba(0,0,0,0)">.</span>i<span style="color: rgba(0,0,0,0)">.</span>
+      </b-button>
     </b-col>
-    <b-toast id="info_toast" title="Plot a state" static no-auto-hide>
-      Drag a state from the map and drop it inside this plot to visualize its time series.
-    </b-toast>
+    <b-popover triggers="click" target="ts_info" title="Plot a district">
+      Drag a district from the map and drop it inside this plot to visualize its time series. You can also add it from the districts list.
+    </b-popover>
 
   </b-row>
 </div>

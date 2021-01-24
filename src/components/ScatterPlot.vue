@@ -5,8 +5,8 @@
     <template #title>{{stateid.id}}</template>
     <div style=" text-align: center;">
       <table>
-        <tr><th>{{x_label}}:</th><td>{{Intl.NumberFormat().format(stateid[x_label])}} </td></tr>
-        <tr><th>{{y_label}}:</th><td>{{Intl.NumberFormat().format(stateid[y_label])}}</td></tr>
+        <tr><th>{{x_label}}</th><th>{{y_label}}</th></tr>
+        <tr><td>{{Intl.NumberFormat().format(stateid[x_label])}} </td><td>{{Intl.NumberFormat().format(stateid[y_label])}}</td></tr>
       </table>  </div>
     <hr style="margin-bottom: 0">
     <div style="text-align: right;color:#5bc0de;font-size: 0.7em">
@@ -25,9 +25,9 @@ export default {
   name: "ScatterPlot",
   data() {
     return {
-      margin: {top: 25, bottom: 50, right: 20, left: 40},
-      width:230,
-      height: 230,
+      margin: {top: 20, bottom: 50, right: 40, left: 40},
+      width:178,
+      height: 178,
       mounted: false,
     }
   },
@@ -72,6 +72,8 @@ export default {
       // append the svg object to the body of the page
       let svg = d3.select(this.$refs.scatterDiv)
           .append("svg")
+          .on('click',this.defaultZone)
+          .classed('btn',true)
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
@@ -115,7 +117,7 @@ export default {
           .enter()
           .append("circle")
           .on('click', this.handleClick)
-          .on('mouseover', this.handleMouseOver)
+          .on('mouseenter', this.handleMouseEnter)
           .on('mouseleave', this.handleMouseLeave)
           .attr('id',d => d.id + String(this.i))
           .attr("cx", d => x(d[this.x_label]) )
@@ -174,9 +176,13 @@ export default {
 
     handleClick(e){
       let state = e.target.__data__.id;
-      this.$emit('showSidebar',state)
+      this.$emit('showSidebar',state);
+      e.stopPropagation();
     },
-    handleMouseOver(e){
+    defaultZone(){
+      this.$emit('defaultZone');
+    },
+    handleMouseEnter(e){
       let state = e.target.__data__.id;
       this.$emit('emitState',state);
       d3.select(e.target).attr('r',10);

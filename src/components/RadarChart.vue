@@ -3,9 +3,17 @@
     <b-row><div id="radarDiv"></div></b-row>
   <b-row style="padding-left:100px;padding-right: 50px">
     <b-col><b-button variant="outline-primary" @click="cleanplotly">CLEAN</b-button></b-col>
-    <b-col><b-form-checkbox v-model="show_avg" name="avgOnOff" switch>
+    <b-col><b-form-checkbox  v-model="show_avg" button-variant="danger" name="avgOnOff" switch>
       Show average
     </b-form-checkbox></b-col>
+    <b-col>
+      <b-button pill variant="outline-primary" id="radar_info" >
+        <span style="color:rgba(0,0,0,0)">.</span>i<span style="color: rgba(0,0,0,0)">.</span>
+      </b-button>
+    </b-col>
+    <b-popover triggers="click" target="radar_info" title="Plot a district">
+      Drag a district from the map and drop it inside this plot to visualize its time series. You can also add it from the districts list.
+    </b-popover>
 
 
   </b-row>
@@ -27,18 +35,14 @@ export default {
       show_avg: true,
       pos_avg: 0,
       layout : {
-        legend:{"orientation": "h",y:1.1},
-        title: {
-          text:this.aggr,
-          "yref": "paper",
-          "y" : 1,
-          "yanchor" : "bottom" } ,
+        legend:{"orientation": "h",y:1.2},
+        //title: {text:this.aggr,} ,
         radialaxis:{visible:true},
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
         width:480,
         height: 400,
-        margin:{l:100,r:60,t:0,b:20},
+        margin:{l:40,r:20,t:0,b:20},
         colorscale:'sequential',
         showlegend:true},
     }

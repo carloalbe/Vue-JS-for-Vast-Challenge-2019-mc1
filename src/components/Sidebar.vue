@@ -13,13 +13,7 @@
         <span v-if="a.text=='Average'">{{state[a.value + ' ' + m.value].toFixed(2)}}</span>
       <span v-else>{{state[a.value + ' ' + m.value]}}</span></td></tr>
 
-      <!--tr><th scope=row>Shake <br> Intensity</th> <td>{{state.tot_shake_intensity}}</td><td>{{state.avg_shake_intensity.toFixed(2)}}</td><td>{{state.num_shake_intensity}}</td></tr>
-      <tr><th scope=row>Power</th><td>{{state.tot_power}}</td><td>{{state.avg_power.toFixed(2)}}</td><td>{{state.num_power}}</td></tr>
-      <tr><th scope=row>Buildings</th><td>{{state.tot_buildings}}</td><td>{{state.avg_buildings.toFixed(2)}}</td><td>{{state.num_buildings}}</td></tr>
-      <tr><th scope=row>Roads </th><td>{{state.tot_roads_and_bridges}}</td><td>{{state.avg_roads_and_bridges.toFixed(2)}}</td><td>{{state.num_roads_and_bridges}}</td></tr>
-      <tr><th scope=row>Sewer</th><td>{{state.tot_sewer_and_water}}</td><td>{{state.avg_sewer_and_water.toFixed(2)}}</td><td>{{state.num_sewer_and_water}}</td></tr>
-      <tr><th scope=row>Medical</th><td>{{state.tot_medical}}</td><td>{{state.avg_medical.toFixed(2)}}</td><td>{{state.num_medical}}</td></tr-->
-    </b-tbody>
+      </b-tbody>
   </table>
   </div>
 

@@ -115,6 +115,8 @@ export default {
 //Draw svg
 
       let svg = d3.select("#paretoDiv").append("svg")
+          .on('click',this.defaultZone)
+          .classed('btn',true)
           .attr("viewBox",'0 0 '+String(width) +' '+String(height));
 
       svg.append("g")
@@ -146,7 +148,7 @@ export default {
           .attr("width", x.bandwidth())
           .attr('aria-controls', 'sidebar').attr('aria-expanded', false)
           .on('click', this.handleClick)
-          .on('mouseover', this.handleMouseOver)
+          .on('mouseenter', this.handleMouseEnter)
           .on('mouseleave', this.handleMouseLeave);
 
 
@@ -212,15 +214,19 @@ export default {
 
     handleClick(e){
        let state = e.target.__data__.id;
-       this.$emit('showSidebar',state)
+       this.$emit('showSidebar',state);
+       e.stopPropagation();
     },
-    handleMouseOver(e,d){
+    handleMouseEnter(e,d){
       this.$emit('emitState',d.id);
       d3.select(e.target).style('opacity', 0.5);
     },
     handleMouseLeave(e){
       this.$emit('selectedState');
       d3.select(e.target).style('opacity',1);
+    },
+    defaultZone(){
+      this.$emit('defaultZone');
     },
 
 

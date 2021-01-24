@@ -18,8 +18,8 @@
 
 
         <b-nav-form>
-         <b-form-select style="border:0;color:white;background-color: #007bff;margin-left: 5px;margin-right: 7px;" :options="aggregations"  id="aggregation-select" v-model="aggr" @change="changeAggr"></b-form-select>
-         <b-form-select style="border:0;color:white;background-color: #007bff;margin-left: 5px;margin-right: 7px;" :options="measures"  id="measure-select" v-model="measure" @change="changeMeasure"></b-form-select>
+         <b-form-select class="btn" style="border:0;color:white;background-color: #007bff;margin-left: 5px;margin-right: 7px;" :options="aggregations"  id="aggregation-select" v-model="aggr" @change="changeAggr"></b-form-select>
+         <b-form-select class="btn"  style="border:0;color:white;background-color: #007bff;margin-left: 5px;margin-right: 7px;" :options="measures"  id="measure-select" v-model="measure" @change="changeMeasure"></b-form-select>
         </b-nav-form>
 
       </b-navbar-nav >

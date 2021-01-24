@@ -3,7 +3,7 @@
  <b-container>
    <b-row style="left:0" >
      <b-col cols="3" style="left:0" >
-       <img alt="logo unipi" src="../assets/logo_unipi.jpg" id="logo_unipi">
+       <a href="https://www.unipi.it/"><img alt="logo unipi" src="../assets/logo_unipi.jpg" id="logo_unipi"></a>
      </b-col>
      <b-col cols="6">
        <div style="margin-top:20%">
