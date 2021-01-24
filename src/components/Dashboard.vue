@@ -57,12 +57,6 @@
         </b-row></b-tab></b-tabs>
       </b-card></b-col>
       </b-row>
-
-    <!--b-row>
-      <GeoMap/>
-    </b-row-->
-  <!--b-row><TableauRace/></b-row-->
-
     </b-container>
     </b-overlay>
   </div>
@@ -70,7 +64,6 @@
 
 <script>
 
-//import json from "../../public/data/states_id.json";
 import Map from "./Map.vue";
 import Sidebar from "@/components/Sidebar";
 import PlotTS from "@/components/PlotTS";
