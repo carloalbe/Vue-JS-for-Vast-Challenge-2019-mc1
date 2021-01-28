@@ -1,30 +1,23 @@
 <template>
 <div id="navBarDiv">
   <b-navbar id="navigationBar" toggleable="lg" type="dark" variant="primary">
-<!--router-link :to="{name: 'dashboard',params:{aggr:this.aggr, measure:this.measure}}" -->
+
     <b-navbar-brand style="padding-left: 1%" href="/">  <img style="height: 30px;" src="../assets/StHimark_logo_white.png" class="d-inline-block align-top" alt="Kitten">
       St.Himark hearthquake map</b-navbar-brand>
-    <!--/router-link-->
+
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-    <!--b-button v-b-toggle.sidebar>Show sidebar</b-button-->
+
     <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <b-nav-item style="color:white"><!--router-link  :to="{name:'tableaurace'}" >Bar Chart Race</router-link--> </b-nav-item>
-      </b-navbar-nav>
 
-      <!-- Right aligned nav items -->
       <b-navbar-nav style="padding-right: 3%" class="ml-auto">
-
-
         <b-nav-form>
          <b-form-select class="btn" style="border:0;color:white;background-color: #007bff;margin-left: 5px;margin-right: 7px;" :options="aggregations"  id="aggregation-select" v-model="aggr" @change="changeAggr"></b-form-select>
          <b-form-select class="btn"  style="border:0;color:white;background-color: #007bff;margin-left: 5px;margin-right: 7px;" :options="measures"  id="measure-select" v-model="measure" @change="changeMeasure"></b-form-select>
         </b-nav-form>
-
       </b-navbar-nav >
     </b-collapse>
-    <b-button id="nav_info" v-b-modal.use-info style="border:0;color:white;background-color: #007bff;margin-left: 7px;margin-right: 7px;" pill variant="dark" @click="$bvToast.show('info_toast')" > 𝕚𝕟𝕗𝕠 </b-button>
+    <b-button id="nav_info" v-b-modal.use-info style="border:0;color:white;background-color: #007bff;margin-left: 7px;margin-right: 7px;" pill variant="dark"  > info </b-button>
   </b-navbar>
 
   <b-modal id="use-info" hide-footer title="Usage">

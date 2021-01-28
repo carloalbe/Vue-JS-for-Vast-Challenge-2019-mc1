@@ -12,7 +12,7 @@
       </b-button>
     </b-col>
     <b-popover triggers="click" target="radar_info" title="Plot a district">
-      Drag a district from the map and drop it inside this plot to visualize its time series. You can also add it from the districts list.
+      Drag a district from the map and drop it inside this plot to visualize its values. You can also add it from the districts list.
     </b-popover>
 
 

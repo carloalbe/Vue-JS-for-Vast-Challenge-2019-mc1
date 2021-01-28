@@ -10,7 +10,8 @@
       </table>  </div>
     <hr style="margin-bottom: 0">
     <div style="text-align: right;color:#5bc0de;font-size: 0.7em">
-      <span v-if="sidebar_show">click to select</span>
+      <span v-if="sidebar_show && stateid.id == selected">click to hide</span>
+      <span v-else-if="sidebar_show">click to select</span>
       <span v-else>click to see more</span></div>
 
 
@@ -37,7 +38,7 @@ export default {
     mounting:Boolean,
     y_label:String,
     states: Array,
-    selected: Object,
+    selected: String,
     sidebar_show:Boolean,
 
   },

@@ -34,8 +34,19 @@ export default {
         legend:{"orientation": "h",y:1.1},
         yaxis:{title: this.aggr_measure},
         xaxis:{
-          tickvals:['2020-04-06', '2020-04-07','2020-04-08','2020-04-09','2020-04-10'],
-          tickformat: '%b %e',
+          tickformatstops: [{
+            "dtickrange": [null, 10000000],
+            "value": "%b %e, %H:00"
+          },
+            {
+              "dtickrange": [10000000, 50000000],
+              "value": "%b %e, %H:00"
+            },
+            {
+              "dtickrange": [50000000, null],
+              "value": "%b %e"
+            },
+          ],
         },
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
@@ -147,10 +158,4 @@ export default {
 
 <style scoped>
 
-
-
-
-#plotDiv{
-
-}
 </style>

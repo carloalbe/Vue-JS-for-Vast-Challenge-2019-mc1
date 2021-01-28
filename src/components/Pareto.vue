@@ -6,7 +6,8 @@
         <div style=" text-align: center;"> <b>{{aggr_measure}}</b>:  {{Intl.NumberFormat().format(stateid[aggr_measure])}}</div>
         <hr style="margin-bottom: 0">
         <div style="text-align: right;color:#5bc0de;font-size: 0.7em">
-          <span v-if="sidebar_show">click to select</span>
+          <span v-if="sidebar_show && stateid.id == selected">click to hide</span>
+          <span v-else-if="sidebar_show">click to select</span>
           <span v-else>click to see more</span></div>
 
 
@@ -31,7 +32,7 @@ export default {
     }
   },
   props: {
-    selected: Object,
+    selected: String,
     values: Array,
     aggr_measure: String,
     mounted:Boolean,

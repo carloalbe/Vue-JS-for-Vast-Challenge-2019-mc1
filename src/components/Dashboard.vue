@@ -29,7 +29,7 @@
 <b-card no-body>
   <b-tabs card>  <b-tab active>
     <template v-slot:title><b-icon icon="map"></b-icon>    Choropleth Map</template>
-    <Map  @showSidebar="showSidebar" :sidebar_show="sidebar_show" :dragged="dragged" :aggr_measure="aggr_measure"  :states="states" :mounted="mounted" @defaultZone="defaultZone" @emitDragged="newDragged" @emitSelected="newSelected" @selectedState="lastSelected" @emitState="newState"/>
+    <Map  :selected="selected.id" @showSidebar="showSidebar" :sidebar_show="sidebar_show" :dragged="dragged" :aggr_measure="aggr_measure"  :states="states" :mounted="mounted" @defaultZone="defaultZone" @emitDragged="newDragged" @emitSelected="newSelected" @selectedState="lastSelected" @emitState="newState"/>
     </b-tab><b-tab><template v-slot:title><b-icon icon="list"></b-icon>    Districts List</template>
     <div v-if="mounted">
     <DistrictsList :measure="measure" :aggr="aggr" @cleanPlotly="cleanPlotly" @showSidebar="showSidebar"  :states="states.slice(1)" :aggr_measure="aggr_measure" :selection="selection" @addtrace="drawTrace"/></div></b-tab>
@@ -40,20 +40,20 @@
     <b-card no-body><b-tabs card>
       <b-tab ><template v-slot:title><b-icon icon="bar-chart-line-fill">ciao</b-icon>    Pareto Plot</template>
     <b-row>
-      <b-col ><Pareto @defaultZone="defaultZone" @showSidebar="showSidebar" :sidebar_show="sidebar_show"  :mounted="mounted" :values="states.slice(1)" :aggr_measure="aggr_measure" :selected="selected" @emitState="newState" @selectedState="lastSelected"/>
+      <b-col ><Pareto @defaultZone="defaultZone" @showSidebar="showSidebar" :sidebar_show="sidebar_show"  :mounted="mounted" :values="states.slice(1)" :aggr_measure="aggr_measure" :selected="selected.id" @emitState="newState" @selectedState="lastSelected"/>
       </b-col></b-row>
       </b-tab>
       <b-tab ><template v-slot:title><b-icon icon="graph-up"></b-icon>    Scatter Plots</template>
       <b-row >
 
-        <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="0" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[1].value" :states="states.slice(1)"/></b-col>
-        <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="1" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[2].value" :states="states.slice(1)"/></b-col>
-          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="2" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[3].value" :states="states.slice(1)"/></b-col>
+        <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="0" :selected="selected.id" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[1].value" :states="states.slice(1)"/></b-col>
+        <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="1" :selected="selected.id" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[2].value" :states="states.slice(1)"/></b-col>
+          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="2" :selected="selected.id" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[3].value" :states="states.slice(1)"/></b-col>
       </b-row>
         <b-row>
-          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="3" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[4].value" :states="states.slice(1)"/></b-col>
-          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="4" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[5].value" :states="states.slice(1)"/></b-col>
-          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="5" :selected="selected" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[6].value" :states="states.slice(1)"/></b-col>
+          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="3" :selected="selected.id" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[4].value" :states="states.slice(1)"/></b-col>
+          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="4" :selected="selected.id" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[5].value" :states="states.slice(1)"/></b-col>
+          <b-col><ScatterPlot @defaultZone="defaultZone" :sidebar_show="sidebar_show"  @showSidebar="showSidebar" @emitState="newState" @selectedState="lastSelected" :i="5" :selected="selected.id" :mounting="mounting" :x_label="aggr_measure" :y_label="this.aggr+' '+this.measures[6].value" :states="states.slice(1)"/></b-col>
         </b-row></b-tab></b-tabs>
       </b-card></b-col>
       </b-row>
@@ -99,7 +99,9 @@ export default {
       state:  {
         "id": "St.Himark",
       },
-      selected: null,
+      selected: {
+        "id": "St.Himark",
+      },
       sidebar_show:false,
       selection: [],
       selection_list: [],
@@ -205,6 +207,10 @@ export default {
   overflow-x: hidden;
 }
 
-
+@media (max-width: 1199px) {
+  #background {
+    overflow-x: scroll;
+  }
+}
 
 </style>
