@@ -1,9 +1,12 @@
 <template>
-  <div id="paretoDiv" >
+  <div id="paretoDiv">
     <div v-if="mounted">
-      <b-popover triggers="hover" placement="top" v-for="stateid in this.values" :key="stateid.id + 'p'" :target="stateid.id +'p'">
-        <template #title>{{stateid.id}}</template>
-        <div style=" text-align: center;"> <b>{{aggr_measure}}</b>:  {{Intl.NumberFormat().format(stateid[aggr_measure])}}</div>
+      <b-popover v-for="stateid in this.values" :key="stateid.id + 'p'" :target="stateid.id +'p'" placement="top"
+                 triggers="hover">
+        <template #title>{{ stateid.id }}</template>
+        <div style=" text-align: center;"><b>{{ aggr_measure }}</b>:
+          {{ Intl.NumberFormat().format(stateid[aggr_measure]) }}
+        </div>
         <hr style="margin-bottom: 0">
         <div style="text-align: right;color:#5bc0de;font-size: 0.7em">
           <span v-if="sidebar_show && stateid.id == selected">click to hide</span>
@@ -21,9 +24,9 @@ import * as d3 from "d3"
 
 export default {
   name: 'Pareto',
-  data(){
-    return{
-      margin : {top: 40, right: 80, bottom: 150, left: 80},
+  data() {
+    return {
+      margin: {top: 40, right: 80, bottom: 150, left: 80},
       height: 580,
       width: 900,
       color: 'steelblue',
@@ -35,19 +38,23 @@ export default {
     selected: String,
     values: Array,
     aggr_measure: String,
-    mounted:Boolean,
-    sidebar_show:Boolean,
+    mounted: Boolean,
+    sidebar_show: Boolean,
   },
   watch: {
-    mounted: function(){this.drawPareto()},
-    aggr_measure: function(){ this.updatePareto()},
+    mounted: function () {
+      this.drawPareto()
+    },
+    aggr_measure: function () {
+      this.updatePareto()
+    },
   },
 
   methods: {
 
-    scales(){
+    scales() {
 
-      let yhist =  d3.scaleLinear()
+      let yhist = d3.scaleLinear()
           .domain([0, d3.max(this.values, d => d[this.aggr_measure])]).nice()
           .range([this.height - this.margin.bottom, this.margin.top])
 
@@ -56,44 +63,49 @@ export default {
           .range([this.margin.left, this.width - this.margin.right])
           .padding(0.1)
 
-      let xl = (d,i) => {return this.margin.left + i * this.width/19}
+      let xl = (d, i) => {
+        return this.margin.left + i * this.width / 19
+      }
 
       let yl = d3.scaleLinear()   //scale for the lorenz curve
-          .domain([0,1])
+          .domain([0, 1])
           .range([this.height - this.margin.bottom, this.margin.top])
 
       return [x, yhist, xl, yl]
     },
 
-    xAxis(g){ g
-        .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-        .attr("id", "xAxis")
-        .call(d3.axisBottom(this.scales()[0]).tickSizeOuter(0))
-  },
-    yAxis(g){ g
-        .attr("transform", `translate(${this.margin.left},0)`)
-        .attr("id","yAxis")
-        .call(d3.axisLeft(this.scales()[1]))
-        .call(g => g.select(".domain").remove());
+    xAxis(g) {
+      g
+          .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
+          .attr("id", "xAxis")
+          .call(d3.axisBottom(this.scales()[0]).tickSizeOuter(0))
     },
-    yAxis2(g){ g
-        .attr("transform", `translate(${this.width - this.margin.right},0)`)
-        .attr("id","yAxis2")
-        .call(d3.axisRight(this.scales()[3]).tickFormat(d3.format(".0%")))
-        .call(g => g.select(".domain").remove())
+    yAxis(g) {
+      g
+          .attr("transform", `translate(${this.margin.left},0)`)
+          .attr("id", "yAxis")
+          .call(d3.axisLeft(this.scales()[1]))
+          .call(g => g.select(".domain").remove());
+    },
+    yAxis2(g) {
+      g
+          .attr("transform", `translate(${this.width - this.margin.right},0)`)
+          .attr("id", "yAxis2")
+          .call(d3.axisRight(this.scales()[3]).tickFormat(d3.format(".0%")))
+          .call(g => g.select(".domain").remove())
     },
 
-    orderValues(values){
+    orderValues(values) {
       values.sort((a, b) => d3.descending(a[this.aggr_measure], b[this.aggr_measure]));
     },
 
-    getLorenz(){
+    getLorenz() {
       let total = d3.sum(this.values, d => d[this.aggr_measure])
-      this.lorenz = this.values.map((d,i) => {
+      this.lorenz = this.values.map((d, i) => {
         const item = {};
         item.id = d.id;
         item[this.aggr_measure] = d[this.aggr_measure];
-        item.p = d3.sum(this.values.slice(0,i+1), d => d[this.aggr_measure]) / total;
+        item.p = d3.sum(this.values.slice(0, i + 1), d => d[this.aggr_measure]) / total;
         return item;
       });
     },
@@ -116,15 +128,15 @@ export default {
 //Draw svg
 
       let svg = d3.select("#paretoDiv").append("svg")
-          .on('click',this.defaultZone)
-          .classed('btn',true)
-          .attr("viewBox",'0 0 '+String(width) +' '+String(height));
+          .on('click', this.defaultZone)
+          .classed('btn', true)
+          .attr("viewBox", '0 0 ' + String(width) + ' ' + String(height));
 
       svg.append("g")
           .call(this.xAxis)
           .selectAll('text')
           .style("text-anchor", "end")
-          .style('font-size','15px')
+          .style('font-size', '15px')
           .attr("dx", "-.8em")
           .attr("dy", ".15em")
           .attr("transform", "rotate(-65)");
@@ -142,7 +154,7 @@ export default {
           .data(this.values)
           .enter().append('rect')
           .style("mix-blend-mode", "multiply")
-          .attr('id',d => d.id + 'p')
+          .attr('id', d => d.id + 'p')
           .attr("x", d => x(d.id))
           .attr("y", d => yhist(d[this.aggr_measure]))
           .attr("height", d => yhist(0) - yhist(d[this.aggr_measure]))
@@ -155,13 +167,13 @@ export default {
 
       svg.append("text")
           .attr("transform", "rotate(-90)")
-          .attr('id','pareto_y_label')
-          .attr("y", -100- this.margin.left)
-          .attr("x", 0- (this.height / 2))
+          .attr('id', 'pareto_y_label')
+          .attr("y", -100 - this.margin.left)
+          .attr("x", 0 - (this.height / 2))
           .attr("dy", "200px")
-          .style('font-size','30px')
+          .style('font-size', '30px')
           .style("text-anchor", "middle")
-          .style('color','grey')
+          .style('color', 'grey')
           .text(this.aggr_measure);
 
 
@@ -177,7 +189,7 @@ export default {
     },
 
 
-    updatePareto(){
+    updatePareto() {
 
       let t = d3.transition().duration(750);
       this.orderValues(this.values);
@@ -204,29 +216,29 @@ export default {
       scales = this.scales();
       let yl = scales[3];
       let line = d3.line()
-          .x(d => x(d.id) + 0.5*x.bandwidth())
+          .x(d => x(d.id) + 0.5 * x.bandwidth())
           .y(d => yl(d.p));
 
-      let lc =  d3.select("#lorenzCurve");
+      let lc = d3.select("#lorenzCurve");
       lc.datum(this.lorenz)
       lc.transition(t)
-        .attr("d",line);
+          .attr("d", line);
     },
 
-    handleClick(e){
-       let state = e.target.__data__.id;
-       this.$emit('showSidebar',state);
-       e.stopPropagation();
+    handleClick(e) {
+      let state = e.target.__data__.id;
+      this.$emit('showSidebar', state);
+      e.stopPropagation();
     },
-    handleMouseEnter(e,d){
-      this.$emit('emitState',d.id);
+    handleMouseEnter(e, d) {
+      this.$emit('emitState', d.id);
       d3.select(e.target).style('opacity', 0.5);
     },
-    handleMouseLeave(e){
+    handleMouseLeave(e) {
       this.$emit('selectedState');
-      d3.select(e.target).style('opacity',1);
+      d3.select(e.target).style('opacity', 1);
     },
-    defaultZone(){
+    defaultZone() {
       this.$emit('defaultZone');
     },
 
@@ -238,19 +250,20 @@ export default {
 
 <style>
 
-#paretoDiv{
+#paretoDiv {
   margin-left: auto;
   margin-right: auto;
-width:70%;
+  width: 70%;
   height: 70%;
 
 }
+
 @media only screen and (max-width: 600px) {
 
-  #paretoDiv{
+  #paretoDiv {
     margin-left: auto;
     margin-right: auto;
-    width:100%;
+    width: 100%;
     height: 70%;
   }
 }

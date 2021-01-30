@@ -1,7 +1,7 @@
 <template>
 <div ref="scatterDiv" class="scatterDiv">
   <div v-if="mounted">
-  <b-popover triggers="hover" placement="top" v-for="stateid in this.states" :key="stateid.id +String(i)" :target="stateid.id +String(i)">
+  <b-popover v-for="stateid in this.states" :key="stateid.id +String(i)" :target="stateid.id +String(i)" placement="top" triggers="hover">
     <template #title>{{stateid.id}}</template>
     <div style=" text-align: center;">
       <table>
