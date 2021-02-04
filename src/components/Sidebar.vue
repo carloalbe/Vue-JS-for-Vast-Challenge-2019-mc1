@@ -7,7 +7,7 @@
 
   <div  id="infoDiv" style="padding:0">
   <table class="table" id="info" >
-    <thead class="thead-dark"><tr><th></th><th scope="col">Total</th><th scope="col">Average</th><th scope="col">N° of</th></tr></thead>
+    <thead class="thead-dark"><tr><th></th><th scope="col">Average</th><th scope="col">Total</th><th scope="col">N° of</th></tr></thead>
     <b-tbody>
       <tr v-for="m in measures" :key="m.text"><th scope="row">{{m.value}}</th><td v-for="a in aggregations" :key="a.text">
         <span v-if="a.text=='Average'">{{state[a.value + ' ' + m.value].toFixed(2)}}</span>

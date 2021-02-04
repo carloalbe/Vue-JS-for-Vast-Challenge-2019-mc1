@@ -6,7 +6,7 @@
     </b-row>
 
     <b-row>
-      <!--router-view></router-view-->
+
     <Dashboard :aggregations="aggregations" :measures="measures" :aggr="aggr" :measure="measure"/>
     </b-row>
     <b-row>
