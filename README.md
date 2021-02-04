@@ -31,12 +31,12 @@ The project presents an Earthquake Damage Report Interactive Dashboard for the V
 
 ### Data
 We had over 80,000 reports from citizens over five days. Records are provided in a csv file, containing informations about the district in which the damage has been detected, the timestamp, and six different categorical values of how violent the shaking was/how bad the damage was (0 - lowest, 10 - highest; missing data allowed):
-●	Power
-●	Buildings
-●	Sewer and Water
-●	Shake Intensity
-●	Roads and Bridges
-●	Medical
+- Power
+- Buildings
+- Sewer and Water
+- Shake Intensity
+- Roads and Bridges
+- Medical
 These data had been pre-aggregated by district in a json file, using three different aggregation functions: SUM(), COUNT(), AVG();  respectively called on the dashboard as “total”, “number of”, “average”.
  Also, global function had been used to observe these metrics at a higher level of aggregation, for the entire city. At this file has been added an svg path for each district, (and one for St.Himark), in order to offer a map view of the earthquakes. 
 Another data pre-process has been used in the component PlotTS, in order to show time series for each categorical value. This approach will be discussed later.
@@ -52,16 +52,16 @@ The web application has been developed with the help of the Vue javascript, a pr
 
 ### Libraries
  Additional libraries had been used such as:
-●	D3: helpful in creating the choropleth map, and other charts, providing also graceful animations, colours palette, and a sophisticated way to integrate data and manage dom elements.
-●	BootstrapVue: a Vue integrated version of the popular front-end toolkit, essential to give the app a structure and keep components inline, and to supply readymade directives to offer a better navigation.
-●	Plotly: one of the most common libraries of this type, offers an easy framework to create beautiful and interactive charts of all types.
+- D3: helpful in creating the choropleth map, and other charts, providing also graceful animations, colours palette, and a sophisticated way to integrate data and manage dom elements.
+- BootstrapVue: a Vue integrated version of the popular front-end toolkit, essential to give the app a structure and keep components inline, and to supply readymade directives to offer a better navigation.
+- Plotly: one of the most common libraries of this type, offers an easy framework to create beautiful and interactive charts of all types.
 
 ### Structure
 The window is composed by a fixed navbar, with title, logo, two selection forms and one info button; by a body containing all the charts; and a footer with classical contacts and the university of Pisa logo. Also a toggle sidebar is present, with some damage info; users can open it from the body components. 
 The body is shared in two bootstrap rows. In turn, the top row is divided into two columns, which can interact. In this way we have got three separated sections. Each section has been built as bootstrap tabs, a useful directive by bootstrap vue, that allows users to navigate between more “windows”. In this way each section hosts two components:
-●	The top tab on the left, contains two different plotly charts, a line chart and a radar chart.
-●	The top tab on the right, contains the choropleth map of the city, but also a list of all districts.
-●	The bottom row contains the pareto chart and the scatter plots, made by d3.
+- The top tab on the left, contains two different plotly charts, a line chart and a radar chart.
+- The top tab on the right, contains the choropleth map of the city, but also a list of all districts.
+- The bottom row contains the pareto chart and the scatter plots, made by d3.
 
 Clicking shapes of the graphs, where a toolkit appears is possible to open the toggle sidebar. It can be moved side by side just clicking on. And shows the navigation between the elements in blur, that can be bars, points or borders, representing districts. 
 
@@ -92,11 +92,11 @@ In the next paragraph, we will describe all components one by one, their functio
 The navbar has left aligned the logo and the title “St.Himark Earthquake Map”. Right aligned there are two selection forms, one to choose the categorical measurement to visualize, and one for the aggregation function desired. Changing this parameter each component of the dashboard changes accordingly (except for the sidebar). The bar is positioned as fixed. So, during the navigation user can always assess it and change the measure of its interest. The selection forms are in toggle version from mobile devices. On the right corner there is an info button, it opens a bootstrap modal with information about how the data had been collected.
 ### Footer
 It is basically for aesthetic; moreover, contains links, to reach:
-●	Unipi website
-●	Visual Analytics course I attended
-●	Vast challenge 2019 instruction 
-●	My mail 
-●	My github, in which you can find a repo of this project 
+- Unipi website
+- Visual Analytics course I attended
+- Vast challenge 2019 instruction 
+- My mail 
+- My github, in which you can find a repo of this project 
 
 ### Dashboard
 Is the body of the application. Contains the SideBar and the structure with the three sections and tabs already mentioned. Here the json file states.json is fetched, and data are distributed to the nested components as props.  While the page is loading, a spinner appears in the centre of the page. 
@@ -136,10 +136,10 @@ Scatter plots give a group vision of all the districts for each couple of e meas
 ### Final Considerations
 
 After this summary I leave some consideration: 
-●	has been particularly important in the implementation of drag and drop: each modern application has it; is not a way to show the data but is only a way to take the user in concentration. Not everybody likes it but most people. 
-●	The scatter plots can also be transformed on a solitary scatter plot with one more select form for the second attribute measure (while the first is from the NavBar). 
-●	The approach used to have more times the same component (the scatter plot) is particular; is important always using refs in a reusable Vue component.
-●	On some occasions d3 data and v-for can be used to do the same thing. Sometimes using v-for allows you to use v-directives in the right way. While managing to use both d3 and Vue can be not trivial.
-●	The data had been pre-processed in python, the granularity chosen is the lowest possible in order to show something; the loading is very easy, but as shown for the time series necessity, using a higher granularity (e.g.  districts and day by day), allow to more sophisticated analysis without performance worsening.
-●	The choropleth map has been implemented for simplicity using simple svg data in the form of string; however, it is possible to use geological data (geojson or topojson) and d3 projection. It can be better for the modules and functions implemented by d3 library.
+- Has been particularly important in the implementation of drag and drop: each modern application has it; is not a way to show the data but is only a way to take the user in concentration. Not everybody likes it but most people. 
+- The scatter plots can also be transformed on a solitary scatter plot with one more select form for the second attribute measure (while the first is from the NavBar). 
+- The approach used to have more times the same component (the scatter plot) is particular; is important always using refs in a reusable Vue component.
+- On some occasions d3 data and v-for can be used to do the same thing. Sometimes using v-for allows you to use v-directives in the right way. While managing to use both d3 and Vue can be not trivial.
+- The data had been pre-processed in python, the granularity chosen is the lowest possible in order to show something; the loading is very easy, but as shown for the time series necessity, using a higher granularity (e.g.  districts and day by day), allow to more sophisticated analysis without performance worsening.
+- The choropleth map has been implemented for simplicity using simple svg data in the form of string; however, it is possible to use geological data (geojson or topojson) and d3 projection. It can be better for the modules and functions implemented by d3 library.
 
