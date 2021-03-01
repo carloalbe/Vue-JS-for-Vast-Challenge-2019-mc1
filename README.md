@@ -1,6 +1,8 @@
 # my-mc1
 
-**N.B. The project is visionable ** <a href="https://sthimarkearthquakemap.000webhostapp.com/">here</a>
+**N.B. The project is visionable** <a href="https://sthimarkearthquakemap.000webhostapp.com/">here</a>
+
+<img widh=800 src="main_dashboard.JPG"/>
 
 ## Project setup
 ```
