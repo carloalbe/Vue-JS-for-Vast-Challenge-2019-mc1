@@ -68,11 +68,11 @@ The body is shared in two bootstrap rows. In turn, the top row is divided into t
 - The bottom row contains the pareto chart and the scatter plots, made by d3.
 
 Clicking shapes of the graphs, where a toolkit appears is possible to open the toggle sidebar. It can be moved side by side just clicking on. And shows the navigation between the elements in blur, that can be bars, points or borders, representing districts. 
-
+<div style="height:100px;width:100%;background-color:blue"/>
 ### Colours 
 Choice of the colours is classical and essential. White background is the easiest choice to display plots and graphs in a clear format. It does not conflict with the default colours for plotly graphs, it does not tire your eyes, and it does not look bad next to primary colours. 
 Primary colours have been used for the navbar and the footer, for the d3 graphs and for the map.
-Bootstrap primary blue has been used for the navbar, while another blue, picked from the unipi logo, has been used for the footer (see the first page of this document). In both text colour is white, and so the page logo. The logo consists of a white shape representing the city of St.Himark created using gimp2.0.  As an aesthetic device, there is a shadow under the navbar. 
+<span style="background-color:blue>Bootstrap primary blue</span> has been used for the navbar, while another blue, picked from the unipi logo, has been used for the footer (see the first page of this document). In both text colour is white, and so the page logo. The logo consists of a white shape representing the city of St.Himark created using gimp2.0.  As an aesthetic device, there is a shadow under the navbar. 
 Other blue shades had been used in the body. Some buttons adopt bootstrap info variant colouration, while buttons in the Plotly charts, in agreement with Plotly blue, use again bootstrap primary. The bars and the points of the d3 plots are instead using a steel blue. 
 While main shapes of the d3 plots are blue, additive information had been plotted both in the bar chart and in the scatter plots, this time using red, in order to not get confused with the rest of the figure. 
  
