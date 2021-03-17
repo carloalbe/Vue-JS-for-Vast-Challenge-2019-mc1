@@ -1,5 +1,12 @@
-# my-mc1
 
+# my-mc1
+<style>
+ H1{
+ color:red;
+ backgroun-color:blue;
+ 
+ }
+ </style>
 **N.B. The project is visionable** <a href="https://sthimarkearthquakemap.000webhostapp.com/">here</a>
 
 <img widh=800 src="main_dashboard.JPG"/>
@@ -73,7 +80,7 @@ Clicking shapes of the graphs, where a toolkit appears is possible to open the t
 ### Colours 
 Choice of the colours is classical and essential. White background is the easiest choice to display plots and graphs in a clear format. It does not conflict with the default colours for plotly graphs, it does not tire your eyes, and it does not look bad next to primary colours. 
 Primary colours have been used for the navbar and the footer, for the d3 graphs and for the map.
-<span style="background-color:blue> Bootstrap primary blue</span> has been used for the navbar, while another blue, picked from the unipi logo, has been used for the footer (see the first page of this document). In both text colour is white, and so the page logo. The logo consists of a white shape representing the city of St.Himark created using gimp2.0.  As an aesthetic device, there is a shadow under the navbar. 
+<span style="background-color:blue"> Bootstrap primary blue </span> has been used for the navbar, while another blue, picked from the unipi logo, has been used for the footer (see the first page of this document). In both text colour is white, and so the page logo. The logo consists of a white shape representing the city of St.Himark created using gimp2.0.  As an aesthetic device, there is a shadow under the navbar. 
 Other blue shades had been used in the body. Some buttons adopt bootstrap info variant colouration, while buttons in the Plotly charts, in agreement with Plotly blue, use again bootstrap primary. The bars and the points of the d3 plots are instead using a steel blue. 
 While main shapes of the d3 plots are blue, additive information had been plotted both in the bar chart and in the scatter plots, this time using red, in order to not get confused with the rest of the figure. 
  
